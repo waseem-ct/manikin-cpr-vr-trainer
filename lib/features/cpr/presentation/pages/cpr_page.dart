@@ -34,6 +34,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.read<CprProvider>();
     return Column(
+      spacing: 0,
       children: [
         const CprAppBar(),
         Expanded(
@@ -42,7 +43,7 @@ class _Body extends StatelessWidget {
               final width = constraints.maxWidth;
               final height = constraints.maxHeight;
               return FittedBox(
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.contain,
                 child: Column(
                   children: [
                     if (context.isTablet) SizedBox(height: height * 0.02),

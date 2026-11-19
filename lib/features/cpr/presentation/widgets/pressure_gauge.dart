@@ -55,7 +55,7 @@ class _PressureGaugeState extends State<PressureGauge> with SingleTickerProvider
           return Container(
             height: height,
             width: constraints.maxWidth,
-            padding: const EdgeInsets.only(bottom: 24),
+            padding: EdgeInsets.zero,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(90), topRight: Radius.circular(90)),
               gradient: LinearGradient(colors: AppColors.gaugeGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),

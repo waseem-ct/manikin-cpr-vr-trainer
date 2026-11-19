@@ -34,9 +34,10 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.read<CprProvider>();
     return Column(
-      spacing: 0,
+      spacing: 20,
       children: [
         const CprAppBar(),
+        const SizedBox(),
         Expanded(
           child: LayoutBuilder(
             builder: (context, constraints) {

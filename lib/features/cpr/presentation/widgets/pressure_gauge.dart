@@ -55,7 +55,7 @@ class _PressureGaugeState extends State<PressureGauge> with SingleTickerProvider
           return Container(
             height: height,
             width: constraints.maxWidth,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(top: 15),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(90), topRight: Radius.circular(90)),
               gradient: LinearGradient(colors: AppColors.gaugeGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
@@ -92,7 +92,13 @@ class _PressureGaugeState extends State<PressureGauge> with SingleTickerProvider
                       ),
                     ],
                     pointers: <GaugePointer>[
-                      RangePointer(value: _animation.value * 10, cornerStyle: CornerStyle.bothCurve, width: thickness, animationType: AnimationType.bounceOut, sizeUnit: GaugeSizeUnit.factor, color: Colors.white),
+                      RangePointer(
+                          value: _animation.value * 10,
+                          cornerStyle: CornerStyle.bothCurve,
+                          width: thickness,
+                          animationType: AnimationType.bounceOut,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          color: Colors.white),
                     ],
                   ),
                 ],

@@ -1,0 +1,48 @@
+name: manikin_simulator
+description: CPR manikin trainer that streams live compression data to a VR headset.
+publish_to: 'none'
+
+version: 1.0.11+11
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  lottie: ^3.3.1
+  google_fonts: ^6.3.3
+  fluttertoast: ^8.2.11
+  flutter_blue_plus: ^1.33.4
+  permission_handler: ^11.3.1
+  percent_indicator: ^4.2.2
+  sizer: ^2.0.15
+  app_settings: ^5.1.1
+  syncfusion_flutter_gauges: ^28.2.5
+  package_info_plus: any
+  http: ^1.3.0
+  wakelock_plus: ^1.2.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher/launcher_icon.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#6368F8"
+  adaptive_icon_foreground: "assets/launcher/launcher_icon_foreground.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/game_images/
+    - assets/other_images/
+    - assets/json_and_audio_files/

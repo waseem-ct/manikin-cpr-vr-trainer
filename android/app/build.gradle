@@ -1,0 +1,127 @@
+// These are the plugins used by the project.
+// The "com.android.application" plugin is required to build an Android app.
+
+plugins {
+    id "com.android.application"                // Android application plugin
+    id "kotlin-android"                         // Kotlin for Android
+    id "dev.flutter.flutter-gradle-plugin"      // Flutter plugin for building the app
+}
+
+
+// Loads local properties from a file, such as API keys or environment-specific configurations.
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+}
+
+
+// Flutter version code and name loaded from the local properties file.
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
+def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
+
+
+android {
+    namespace "com.TrueFormGames.ManikinSimulators.VR"   // Android package identifier
+    compileSdkVersion  36                         // The SDK version to compile against
+    ndkVersion "28.2.13676358"                        // Native Development Kit version (used for native C/C++ code)
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17  // Java compatibility for compilation
+        targetCompatibility JavaVersion.VERSION_17
+        // Suppress deprecation warnings
+        lintOptions {
+            warning 'deprecation'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'                            // JVM target for Kotlin
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'       // Adds Kotlin source files to the project
+    }
+
+    // Disable BuildConfig generation for this module
+    buildFeatures {
+        buildConfig = false
+    }
+
+
+    // Release signing comes from android/key.properties (git-ignored, never commit it):
+    //   storeFile=C:/path/to/your.jks
+    //   storePassword=...
+    //   keyAlias=...
+    //   keyPassword=...
+    // Without that file, release builds fall back to the debug key so `flutter run --release` still works.
+    def keyProperties = new Properties()
+    def keyPropertiesFile = rootProject.file('key.properties')
+    if (keyPropertiesFile.exists()) {
+        keyPropertiesFile.withInputStream { keyProperties.load(it) }
+    }
+
+    signingConfigs {
+        release {
+            if (keyPropertiesFile.exists()) {
+                storeFile file(keyProperties['storeFile'])
+                storePassword keyProperties['storePassword']
+                keyAlias keyProperties['keyAlias']
+                keyPassword keyProperties['keyPassword']
+            }
+        }
+    }
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        applicationId "com.TrueFormGames.ManikinSimulators.VR"  // Unique app ID for the project
+        minSdkVersion 27                                     // Minimum Android version supported (Android 8.1)
+        targetSdkVersion 35                                  // Target Android version
+        versionCode flutterVersionCode.toInteger()           // App version code
+        versionName flutterVersionName                       // App version name
+        multiDexEnabled true                                 // Enables multi-dex for apps with many methods
+
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig keyPropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+            minifyEnabled true                               // Enables code shrinking, obfuscation, and optimization
+            shrinkResources true                             // Removes unused resources during the build process
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'  // ProGuard configuration for release builds
+
+            /*signingConfig signingConfigs.debug
+           shrinkResources false
+           minifyEnabled false*/
+
+        }
+    }
+}
+
+// This section defines Flutter-specific configuration for the app.
+flutter {
+    source '../..'    // Specifies the relative path to the Flutter project
+}
+
+dependencies {
+    // Kotlin standard library for JDK 7, enabling Kotlin language features. Uncomment if using Kotlin.
+    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Material Design components for building UI following Google's design guidelines.
+    implementation 'com.google.android.material:material:1.12.0'
+
+    // Enables multi-dex support for apps exceeding the 65,536 method limit.
+    implementation 'androidx.multidex:multidex:2.0.1'  // Upgraded from old version using 'com.android.support:multidex:1.0.3'
+
+    // Google Play services location APIs for accessing device location features.
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+
+    // AndroidX activity library for managing activities and their lifecycles effectively.
+    implementation "androidx.activity:activity:1.10.1"
+
+    implementation"com.google.android.play:app-update:2.1.0"
+    implementation"com.google.android.play:app-update-ktx:2.1.0"
+}

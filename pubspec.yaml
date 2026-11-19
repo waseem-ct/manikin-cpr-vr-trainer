@@ -10,20 +10,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get: ^4.6.6
-  get_storage: ^2.1.1
-  lottie: ^3.3.1
-  google_fonts: ^6.3.3
-  fluttertoast: ^8.2.11
+
+  # Architecture
+  provider: ^6.1.5+1
+  go_router: ^17.3.0
+  get_it: ^9.2.1
+  flutter_dotenv: ^6.0.1
+  shared_preferences: ^2.5.3
+
+  # Bluetooth + platform
   flutter_blue_plus: ^1.33.4
   permission_handler: ^11.3.1
-  percent_indicator: ^4.2.2
-  sizer: ^2.0.15
   app_settings: ^5.1.1
-  syncfusion_flutter_gauges: ^28.2.5
-  package_info_plus: any
-  http: ^1.3.0
   wakelock_plus: ^1.2.8
+
+  # Networking
+  http: ^1.3.0
+
+  # UI
+  google_fonts: ^6.3.3
+  lottie: ^3.3.1
+  percent_indicator: ^4.2.2
+  syncfusion_flutter_gauges: ^28.2.5
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +51,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/game_images/
     - assets/other_images/
     - assets/json_and_audio_files/

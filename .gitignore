@@ -85,3 +85,4 @@ android/key.properties
 assets/playstorekey
 .env
 .env.*
+!.env.example

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Small "VR server" link indicator: a green / orange / red dot with the ping.
+/// "VR server" link indicator: a green / orange / red dot with the ping. [compact] is a one-line, small variant.
 class NetworkStatusBadge extends StatelessWidget {
-  const NetworkStatusBadge({super.key, required this.pingStream});
+  const NetworkStatusBadge({super.key, required this.pingStream, this.compact = false});
 
   final Stream<int> pingStream;
+  final bool compact;
 
   Color _color(int ping) {
     if (ping < 0) return Colors.red;
@@ -21,17 +22,17 @@ class NetworkStatusBadge extends StatelessWidget {
         final ping = snapshot.data;
         final color = ping == null ? Colors.grey : _color(ping);
         final label = ping == null
-            ? 'VR server: checking...'
+            ? 'VR server...'
             : ping < 0
-                ? 'VR server: not reachable'
-                : 'VR server: $ping ms';
+                ? 'VR server offline'
+                : 'VR server $ping ms';
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.circle, size: 12, color: color),
-            const SizedBox(width: 6),
-            Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: color)),
+            Icon(Icons.circle, size: compact ? 8 : 12, color: color),
+            SizedBox(width: compact ? 4 : 6),
+            Text(label, style: TextStyle(fontSize: compact ? 11 : 13, fontWeight: FontWeight.w600, color: color)),
           ],
         );
       },

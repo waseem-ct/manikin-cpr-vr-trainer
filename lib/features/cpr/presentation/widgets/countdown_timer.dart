@@ -21,7 +21,7 @@ class CountdownTimer extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 4),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

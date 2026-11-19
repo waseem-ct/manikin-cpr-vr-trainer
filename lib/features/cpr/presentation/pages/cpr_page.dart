@@ -8,7 +8,6 @@ import '../providers/cpr_provider.dart';
 import '../widgets/countdown_timer.dart';
 import '../widgets/cpr_app_bar.dart';
 import '../widgets/manikin_stage.dart';
-import '../widgets/network_status_badge.dart';
 import '../widgets/pressure_gauge.dart';
 
 /// The CPR game screen.
@@ -37,7 +36,6 @@ class _Body extends StatelessWidget {
     return Column(
       children: [
         const CprAppBar(),
-        NetworkStatusBadge(pingStream: provider.pingStream),
         Expanded(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -47,9 +45,9 @@ class _Body extends StatelessWidget {
                 fit: BoxFit.fitHeight,
                 child: Column(
                   children: [
-                    if (context.isTablet) SizedBox(height: height * 0.05),
+                    if (context.isTablet) SizedBox(height: height * 0.02),
                     const _Timer(),
-                    SizedBox(height: height * 0.05),
+                    SizedBox(height: height * 0.02),
                     Selector<CprProvider, CprSensorData>(
                       selector: (_, p) => p.sensor,
                       builder: (_, sensor, __) => ManikinStage(layout: provider.layout, sensor: sensor, width: width, height: height),

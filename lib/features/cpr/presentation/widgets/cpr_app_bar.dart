@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_header.dart';
 import '../providers/cpr_provider.dart';
+import 'network_status_badge.dart';
 
-/// Game top bar: back button, a "Connected" / "Disconnected" label that changes colour with the Bluetooth
-/// connection, and a settings menu with the "With Air Blow" option.
+/// Slim game top bar: back button, the Bluetooth status with the VR ping underneath, and a settings menu.
 class CprAppBar extends StatelessWidget {
   const CprAppBar({super.key});
 
@@ -14,10 +14,17 @@ class CprAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.read<CprProvider>();
     return AppHeader(
+      compact: true,
       onBack: provider.confirmExit,
-      center: Selector<CprProvider, bool>(
-        selector: (_, p) => p.isDeviceConnected,
-        builder: (_, connected, __) => ConnectionStatusLabel(isConnected: connected),
+      center: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Selector<CprProvider, bool>(
+            selector: (_, p) => p.isDeviceConnected,
+            builder: (_, connected, __) => ConnectionStatusLabel(isConnected: connected),
+          ),
+          NetworkStatusBadge(pingStream: provider.pingStream, compact: true),
+        ],
       ),
       trailing: Selector<CprProvider, bool>(
         selector: (_, p) => p.withAirBlow,
@@ -27,7 +34,7 @@ class CprAppBar extends StatelessWidget {
   }
 }
 
-/// Green "Connected" / red "Disconnected" label.
+/// Green "Connected" / red "Disconnected" label with a Bluetooth icon in the same colour.
 class ConnectionStatusLabel extends StatelessWidget {
   const ConnectionStatusLabel({super.key, required this.isConnected});
 
@@ -39,9 +46,9 @@ class ConnectionStatusLabel extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(isConnected ? Icons.bluetooth_connected_sharp : Icons.bluetooth_disabled_sharp, color: color, size: 20),
-        const SizedBox(width: 6),
-        Text(isConnected ? 'Connected' : 'Disconnected', style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w700)),
+        Icon(isConnected ? Icons.bluetooth_connected_sharp : Icons.bluetooth_disabled_sharp, color: color, size: 16),
+        const SizedBox(width: 4),
+        Text(isConnected ? 'Connected' : 'Disconnected', style: TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w700)),
       ],
     );
   }
@@ -65,11 +72,10 @@ class AirBlowMenu extends StatelessWidget {
         PopupMenuItem<void>(child: _AirBlowCheckbox(initial: value, onChanged: onChanged)),
       ],
       child: Container(
-        width: 52,
-        height: 48,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.purple),
-        child: const Icon(Icons.settings, color: Colors.white, size: 28),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.purple),
+        child: const Icon(Icons.settings, color: Colors.white, size: 22),
       ),
     );
   }
